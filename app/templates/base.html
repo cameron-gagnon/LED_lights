@@ -1,0 +1,14 @@
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - Pixelator</title>
+        {% else %}
+        <title>Pixelate some pixels</title>
+        {% endif %}
+    </head>
+    <body>
+        <div>Pixelator: <a href="/index">Home</a></div>
+        <hr>
+        {% block content %}{% endblock %}
+    </body>
+</html>
