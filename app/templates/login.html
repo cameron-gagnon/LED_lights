@@ -8,12 +8,12 @@
             Username:<br>
             {{ form.username(size=20) }}<br>
             {% for error in form.username.errors %}
-                <span style="color: red;">[{{ error }}]</span>
+                <span style="color: red;">{{ error }}</span>
             {% endfor %}<br>
             Password:<br>
             {{ form.password(size=20) }}<br>
             {% for error in form.password.errors %}
-                <span style="color: red;">[{{ error }}]</span>
+                <span style="color: red;">{{ error }}</span>
             {% endfor %}<br>
         </p>
         <p>{{ form.remember_me }} Remember Me</p>
