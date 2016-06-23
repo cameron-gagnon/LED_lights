@@ -2,11 +2,19 @@
 
 {% block content %}
     <h1>Sign In</h1>
-    <form action="" method="" name="login">
-        {{ form.hidden_tag() }
+    <form action="" method="POST" name="login">
+        {{ form.csrf_token }}
         <p>
-            Please enter your OpenID:<br>
-            {{ form.openid(size=80) }}<br>
+            Username:<br>
+            {{ form.username(size=20) }}<br>
+            {% for error in form.username.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}<br>
+            Password:<br>
+            {{ form.password(size=20) }}<br>
+            {% for error in form.password.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}<br>
         </p>
         <p>{{ form.remember_me }} Remember Me</p>
         <p><input type="submit" value="Sign In"></p>
