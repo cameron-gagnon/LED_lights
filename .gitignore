@@ -8,3 +8,6 @@ app.db
 
 # virtualenv
 .venv/
+
+# creds
+super_secret.py
