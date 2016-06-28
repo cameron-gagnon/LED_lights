@@ -1,4 +1,33 @@
 {% extends "base.html" %}
+
+{% block head %}
+    <link href="{{ url_for('static', filename='css/index.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
-    <h1>Hi, {{ user.nickname }}!</h1>
+    <div class="container">
+        <div class="button-grid">
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-default" type="submit">col 1</button>
+                    <button class="btn btn-default" type="submit">col 2</button>
+                    <button class="btn btn-default" type="submit">col 3</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-default" type="submit">col 1</button>
+                    <button class="btn btn-default" type="submit">col 2</button>
+                    <button class="btn btn-default" type="submit">col 3</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-default" type="submit">col 1</button>
+                    <button class="btn btn-default" type="submit">col 2</button>
+                    <button class="btn btn-default" type="submit">col 3</button>
+                </div>
+            </div>
+        </div> <!-- end button-grid -->
+    </div>
 {% endblock %}

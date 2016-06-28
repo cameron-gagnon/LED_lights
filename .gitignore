@@ -9,5 +9,8 @@ app.db
 # virtualenv
 .venv/
 
+# log files
+*/tmp/**
+
 # creds
 super_secret.py
