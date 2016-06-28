@@ -10,7 +10,7 @@ app.db
 .venv/
 
 # log files
-*/tmp/**
+tmp/**
 
 # creds
 super_secret.py
