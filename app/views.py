@@ -31,6 +31,25 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+    if g.user is not None and g.user.is_authenticated:
+        return redirect(url_for('index'))
+
+    form = LoginForm(request.form)
+
+    if request.method == 'POST' and form.validate():
+        session['remember_me'] = form.remember_me.data
+        flash('Login request for username="{}", remember_me={}'.format(
+                form.username.data, str(form.remember_me.data)))
+        authenticate_user(form)
+        return redirect(request.args.get('next') or url_for('index'))
+
+    return render_template('login.html', title='Sign In', form=form)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
 @lm.user_loader
 def load_user(id):
     return User.query.get(int(id))
@@ -47,8 +66,7 @@ def authenticate_user(request):
         db.session.add(user)
         db.session.commit()
     remember_me = False
-    if user == "cameron.gagnon@gmail.com":
-        if 'remember_me' in session:
-            remember_me = session['remember_me']
-            session.pop('remember_me', None)
-        login_user(user, remember = remember_me)
+    if 'remember_me' in session:
+        remember_me = session['remember_me']
+        session.pop('remember_me', None)
+    login_user(user, remember = remember_me)
