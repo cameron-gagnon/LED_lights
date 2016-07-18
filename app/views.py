@@ -1,7 +1,5 @@
 from flask import render_template, flash, redirect, request, session, url_for
-from flask_login import login_required, login_user, logout_user, current_user
-from app import app, db, lm
-from .models import User
+from app import app
 import time
 
 @app.route('/')

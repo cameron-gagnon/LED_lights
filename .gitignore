@@ -3,12 +3,6 @@ app/__pycache__/
 __pycache__/
 *.py[cod]
 
-# database
-app.db
-
-# virtualenv
-.venv/
-
 # log files
 tmp/**
 
