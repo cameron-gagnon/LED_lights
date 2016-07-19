@@ -5,35 +5,33 @@
 {% endblock %}
 
 {% block content %}
-    <form method='POST' action='/sendsignal'>
-        <div class="container">
-            <div class="button-grid">
+    <div class="container">
+        <div class="button-grid">
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <button class="btn btn-default" type="submit">col 1</button>
-                        <button class="btn btn-default" type="submit">col 2</button>
-                        <button class="btn btn-default" type="submit">col 3</button>
-                    </div>
-                </div> <!-- end row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <a class="btn btn-default" href="/signal/0x0E">On</a>
+                    <a class="btn btn-default" href="/signal/0x00">Off</a>
+                    <a class="btn btn-default" href="/signal/0x09">col 3</a>
+                </div>
+            </div> <!-- end row -->
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <button class="btn btn-default" type="submit">col 1</button>
-                        <button class="btn btn-default" type="submit">col 2</button>
-                        <button class="btn btn-default" type="submit">col 3</button>
-                    </div>
-                </div> <!-- end row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-default" type="submit">col 1</button>
+                    <button class="btn btn-default" type="submit">col 2</button>
+                    <button class="btn btn-default" type="submit">col 3</button>
+                </div>
+            </div> <!-- end row -->
 
-                <div class="row">
-                    <div class="col-md-12">
-                        <button class="btn btn-default" type="submit">col 1</button>
-                        <button class="btn btn-default" type="submit">col 2</button>
-                        <button class="btn btn-default" type="submit">col 3</button>
-                    </div>
-                </div> <!-- end row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-default" type="submit">col 1</button>
+                    <button class="btn btn-default" type="submit">col 2</button>
+                    <button class="btn btn-default" type="submit">col 3</button>
+                </div>
+            </div> <!-- end row -->
 
-            </div> <!-- end button-grid -->
-        </div> <!-- end container -->
-    </form>
+        </div> <!-- end button-grid -->
+    </div> <!-- end container -->
 {% endblock %}
