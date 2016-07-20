@@ -1,6 +1,7 @@
 from flask import render_template, flash, redirect, request, session, url_for
 from app import app
 import time
+import subprocess
 
 
 @app.route('/')
@@ -10,10 +11,10 @@ def index():
 
 @app.route('/signal/<opcode>')
 def signal(opcode):
-    print 'Sending signal: %d ' % (opcode)
+    retCode = subprocess.call(['sudo', './pixelate_send', opcode])
 
-#    retCode = subprocess.call(['sudo', './pixelated', opcode])
-
-#    if not retCode:
-#        print 'ERROR: exited with status: %d ' % retCode
+    # return 0 from main in pixelate_send.cpp so anything non-zero
+    # prolly means we encountered errors
+    if retCode:
+        print 'ERROR: exited with status: %d ' % retCode
     return redirect( url_for('index') )
