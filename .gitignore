@@ -8,3 +8,6 @@ tmp/**
 
 # creds
 super_secret.py
+
+# executable
+pixelate_send

@@ -17,20 +17,18 @@ using namespace std;
 bool radioNumber = 1;
 
 // Radio pipe addresses for the 2 nodes to communicate.
-const uint8_t pipes[][6] = {"1Node","2Node"};
-const int ARDUINO_MASKS[] = {0x01}; //, 0x02, 0x04, 0x08};
-const int NUM_ARDUINOS = 1; // will be 4
+const uint8_t pipes[][6] = {"0Node", "1Node","2Node"};//, "3Node"};//, "4Node"};
+const int ARDUINO_MASKS[] = {0x01, 0x02};//, 0x04};//, 0x08};
+const int NUM_ARDUINOS = 2; // will be 4
 
 RF24 setup();
 void process(RF24 radio, char** argv);
-void send(RF24 radio, int opcode);
+void send(RF24 radio, int opcode, int i);
 
 int main(int argc, char** argv){
 
-
     RF24 radio = setup();
     process(radio, argv);
-    cout << "finished processing process" << endl;
 
     return 0;
 }
@@ -41,7 +39,6 @@ int main(int argc, char** argv){
  */
 RF24 setup(){
 
-    cout << "setting up radio" << endl;
     // RPi generic:
     RF24 *radio = new RF24(25, 0);
 
@@ -53,9 +50,9 @@ RF24 setup(){
     // Dump the configuration of the rf unit for debugging
     //radio->printDetails();
 
-    // this radio will always be the sender so we open these pipes for
-    // reading/writing
-    radio->openWritingPipe(pipes[1]);
+    // This radio will always be the sender so we open this pipe for
+    // reading. Pipes will be opened for writing to on an as needed
+    // basis.
     radio->openReadingPipe(1,pipes[0]);
 
     radio->startListening();
@@ -81,27 +78,29 @@ void process(RF24 radio, char** argv){
     iss >> hex >> opcode;
     cout << "Got signal: " << opcode << endl;
 
-    // First, stop listening so we can talk.
-    radio.stopListening();
-
     for (int i = 0; i < NUM_ARDUINOS; ++i){
         if (opcode & ARDUINO_MASKS[i]){
             cout << "[" << (i + 1) << "] Sending opcode: " << opcode << "\n";
-            send(radio, opcode);
+            send(radio, opcode, i);
         }
     }
 
 
 }
 
-void send(RF24 radio, int opcode){
+void send(RF24 radio, int opcode, int i){
+    // First, stop listening so we can talk.
+    radio.stopListening();
+
+    // offset because 0node is ourself (the rpi)
+    radio.openWritingPipe(pipes[i + 1]);
 
     // Take the time, and send it. This will block until complete
     printf("Now sending...\n");
     bool ok = radio.write( &opcode, sizeof(int) );
 
     if (!ok){
-        printf("FAILED.\n");
+        printf("NO RESPONSE/FAILED TO WRITE.\n");
     }
     // Now, continue listening
     radio.startListening();
