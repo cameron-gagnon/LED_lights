@@ -17,11 +17,8 @@ class Lights {
 
   public:
     Lights(const unsigned short in_led_pin): LED_PIN(in_led_pin) {
-      Serial.println("Constructor Lights");
       strip = Adafruit_NeoPixel(180, 6, NEO_GRB + NEO_KHZ800);
       strip.begin();
-      strip.show();
-      Serial.println("End constructor Lights");
     };
 
     void turnOff() {
