@@ -18,7 +18,7 @@ bool radioNumber = 1;
 
 // Radio pipe addresses for the 2 nodes to communicate.
 const uint8_t pipes[][6] = {"0Node", "1Node","2Node"};//, "3Node"};//, "4Node"};
-const int ARDUINO_MASKS[] = {0x01, 0x02};//, 0x04};//, 0x08};
+const int ARDUINO_MASKS[] = {0x01, 0x02, 0x04};//, 0x08};
 const int NUM_ARDUINOS = 2; // will be 4
 
 RF24 setup();
@@ -76,7 +76,6 @@ void process(RF24 radio, char** argv){
     istringstream iss(argv[1]);
     int opcode;
     iss >> hex >> opcode;
-    cout << "Got signal: " << opcode << endl;
 
     for (int i = 0; i < NUM_ARDUINOS; ++i){
         if (opcode & ARDUINO_MASKS[i]){
