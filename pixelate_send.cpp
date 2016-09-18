@@ -29,6 +29,7 @@ int main(int argc, char** argv){
 
     RF24 radio = setup();
     process(radio, argv);
+    radio.printDetails();
 
     return 0;
 }
@@ -97,6 +98,10 @@ void send(RF24 radio, int opcode, int i){
     // Take the time, and send it. This will block until complete
     printf("Now sending...\n");
     bool ok = radio.write( &opcode, sizeof(int) );
+    printf("Done writing...\n");
+    bool tx, max_rt, read;
+    radio.whatHappened(tx, max_rt, read);
+    printf("TX: %d, MAX: %d, READ: %d\n", tx, max_rt, read);
 
     if (!ok){
         printf("NO RESPONSE/FAILED TO WRITE.\n");
