@@ -3,11 +3,5 @@ app/__pycache__/
 __pycache__/
 *.py[cod]
 
-# log files
-tmp/**
-
-# creds
-super_secret.py
-
-# executable
-pixelate_send
+# output file
+nohup.out

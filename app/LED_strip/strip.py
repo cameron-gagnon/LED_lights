@@ -105,27 +105,29 @@ if __name__ == "__main__":
     print "Press Ctrl-C to quit"
     try:
         while True:
-            s.on()
-            time.sleep(1)
-            s.off()
-            time.sleep(1)
-            s.on()
-            time.sleep(1)
-            s.off()
-            time.sleep(1)
-            s.colorWipe(s.WHITE)
-            s.colorWipe(s.RED)
-            # Color wipe animations.
-            s.colorWipe(s.RED)  # Red wipe
-            s.colorWipe(s.BLUE)  # Blue wipe
-            s.colorWipe(s.GREEN)  # Green wipe
-            # Theater chase animations.
-            s.theaterChase(Color(127, 127, 127))  # White theater chase
-            s.theaterChase(Color(127,   0,   0))  # Red theater chase
-            s.theaterChase(Color(  0,   0, 127))  # Blue theater chase
-            # Rainbow animations.
-            s.rainbow()
             s.rainbowCycle()
-            s.theaterChaseRainbow()
+#        while True:
+#            s.on()
+#            time.sleep(1)
+#            s.off()
+#            time.sleep(1)
+#            s.on()
+#            time.sleep(1)
+#            s.off()
+#            time.sleep(1)
+#            s.colorWipe(s.WHITE)
+#            s.colorWipe(s.RED)
+#            # Color wipe animations.
+#            s.colorWipe(s.RED)  # Red wipe
+#            s.colorWipe(s.BLUE)  # Blue wipe
+#            s.colorWipe(s.GREEN)  # Green wipe
+#            # Theater chase animations.
+#            s.theaterChase(Color(127, 127, 127))  # White theater chase
+#            s.theaterChase(Color(127,   0,   0))  # Red theater chase
+#            s.theaterChase(Color(  0,   0, 127))  # Blue theater chase
+#            # Rainbow animations.
+#            s.rainbow()
+#            s.rainbowCycle()
+#            s.theaterChaseRainbow()
     except KeyboardInterrupt:
         print "Closing"
