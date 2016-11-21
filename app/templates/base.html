@@ -3,9 +3,8 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
+        <meta name="description" content="light control page for dorm room">
         <meta name="author" content="">
-        <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
         {% block head %}{% endblock %}
         {% if title %}
         <title>{{ title }} - Pixelator</title>
@@ -17,6 +16,7 @@
         {% include 'flash.html' %}
         {% block content %}{% endblock %}
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+        <!--<script src="{{ url_for('static', filename='js/bootstrap.min.js')
+}}"></script>-->
     </body>
 </html>

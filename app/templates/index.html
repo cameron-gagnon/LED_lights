@@ -7,35 +7,17 @@
 {% block content %}
     <div class="container">
         <div class="header">
-            <h1>I know this looks like shit. Some day soon, it won't. Until then:</h1>
-            <img src="http://vignette1.wikia.nocookie.net/polandball/images/c/c7/Deal-with-it.png/revision/latest?cb=20160112041033">
+            <h1>Light Controls</h1>
         </div>
-        <div class="button-grid">
-
-            <div class="row">
-                <div class="col-md-12">
-                    <a class="btn btn-default" href="/signal/0x1111">All On</a>
-                    <a class="btn btn-default" href="/signal/0x0000">All Off</a>
-                    <a class="btn btn-default" href="/signal/0xFFF1">Kitchen On</a>
-                </div>
-            </div> <!-- end row -->
-
-            <div class="row">
-                <div class="col-md-12">
-                    <a class="btn btn-default" href="/signal/0x0010">TV Wall On</a>
-                    <a class="btn btn-default" href="/signal/0xFF0F">TV Wall Off</a>
-                    <a class="btn btn-default" href="/signal/0xFFF0">Kitchen Off</a>
-                </div>
-            </div> <!-- end row -->
-
-            <div class="row">
-                <div class="col-md-12">
-                    <a class="btn btn-default" href="/signal/0x0002">Theater Chase</a>
-                    <a class="btn btn-default" href="/signal/0x0004">!! Gerald !!</a>
-                    <a class="btn btn-default" href="/signal/0x0008">Color Wipe</a>
-                </div>
-            </div> <!-- end row -->
-
-        </div> <!-- end button-grid -->
+        <div class="flex-grid">
+            <a class="col button" href="/signal/mandb">Maize and Blue</a>
+            <a class="col button" href="/signal/cycle">Cycle all</a>
+            <a class="col button" href="/signal/seizure">Seizure</a>
+            <a class="col button" href="/signal/chase">Theater Chase</a>
+            <a class="col button" href="/signal/gerald">Gerald</a>
+            <a class="col button" href="/signal/wipe">Color Wipe</a>
+            <a class="col button" href="/signal/off">Off</a>
+            <a class="col button" href="/signal/on">On</a>
+        </div>
     </div> <!-- end container -->
 {% endblock %}
