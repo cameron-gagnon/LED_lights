@@ -1,54 +1,49 @@
 class Handler(object):
 
     def __init__(self):
-        pass
+        self.lookup = {
+            "on": self.on,
+            "off": self.off,
+            "mandb": self.m_and_b,
+            "seizure": self.seizure,
+            "chase": self.theater_chase,
+            "gerald": self.gerald,
+            "wipe": self.color_wipe,
+            "cycle": self.cycle_all,
+        }
 
     def send(self, strip, opcode):
         print "Sending opcode: ", opcode
         opcode = opcode.lower()
         res = self.lookup.get(opcode, self.off)
-        res()
+        res(strip)
 
-    def theater_chase(self):
-        while (True):
-            strip.theaterChase(strip.BRIGHT_WHITE)
-            strip.theaterChase(strip.RED)
-            strip.theaterChase(strip.BLUE)
-            strip.theaterChase(strip.GREEN)
+    def theater_chase(self, strip):
+        while(True):
+            strip.full_theater_chase()
 
-    def gerald(self):
-        while (True):
+    def gerald(self, strip):
+        while(True):
             strip.rainbow()
 
-    def color_wipe(self):
-        while (True):
-            strip.colorWipe(strip.BLUE)
-            strip.colorWipe(strip.RED)
-            strip.colorWipe(strip.GREEN)
-            strip.colorWipe(strip.BRIGHT_WHITE)
+    def color_wipe(self, strip):
+        while(True):
+            strip.full_color_wipe()
 
-    def m_and_b(self):
-        strip.custom({1: (0, 0, 255,),
-                      2: (255,255,0,),
-                      3: (0, 0, 255,),
-                      4: (255,255,0,)})
+    def m_and_b(self, strip):
+        strip.maize_and_blue()
 
-    def seizure(self):
-        while (True):
+    def seizure(self, strip):
+        while(True):
             strip.strobe()
 
-    def on(self):
+    def cycle_all(self, strip):
+        while(True):
+            strip.cycle_all()
+
+    def on(self, strip):
         strip.on()
 
-    def off(self):
+    def off(self, strip):
         strip.off()
 
-    lookup = {
-        "on": on,
-        "off": off,
-        "mandb": m_and_b,
-        "seizure": seizure,
-        "chase": theater_chase,
-        "gerald": gerald,
-        "wipe": color_wipe
-    }

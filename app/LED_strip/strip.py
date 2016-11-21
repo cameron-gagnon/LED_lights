@@ -19,6 +19,8 @@ class Strip(object):
     RED = Color(255,0,0)
     GREEN = Color(0,255,0)
     BLUE = Color(0,0,255)
+    YELLOW = Color(127,127,0)
+    DIM_YELLOW = Color(80,80,0)
 
     def __init__(self):
         self.strip = Adafruit_NeoPixel(self.LED_COUNT, self.LED_PIN,
@@ -93,6 +95,63 @@ class Strip(object):
             self.strip.setPixelColor(i, color)
 
         self.strip.show()
+
+    def strobe(self):
+        DELAY = 50 # in ms
+
+        for i in range(self.strip.numPixels()):
+            self.strip.setPixelColor(i, self.WHITE)
+
+        self.strip.show()
+        time.sleep(DELAY/1000.0)
+
+        for i in range(self.strip.numPixels()):
+            self.strip.setPixelColor(i, self.OFF)
+
+        self.strip.show()
+        time.sleep(DELAY/1000.0)
+
+    def full_color_wipe(self):
+        self.colorWipe(self.BLUE)
+        self.colorWipe(self.DIM_YELLOW)
+        self.colorWipe(self.RED)
+        self.colorWipe(self.GREEN)
+        self.colorWipe(self.WHITE)
+
+    def full_theater_chase(self):
+        self.theaterChase(self.BRIGHT_WHITE)
+        self.theaterChase(self.RED)
+        self.theaterChase(self.BLUE)
+        self.theaterChase(self.YELLOW)
+        self.theaterChase(self.GREEN)
+
+    def maize_and_blue(self):
+        cur_color = self.BLUE
+        ALTERNATING_AMOUNT = 10
+        counter = 0
+
+        for i in range(self.strip.numPixels()):
+            # change values from maize to blue every 10 pixels
+            if counter >= ALTERNATING_AMOUNT:
+                cur_color = self.BLUE if cur_color == self.YELLOW else self.YELLOW
+                counter = 0
+
+            counter += 1
+
+            self.strip.setPixelColor(i, cur_color)
+
+        self.strip.show()
+
+    def cycle_all(self):
+        # cycles through each pattern for a little bit (except strobe)
+        DURATION = 10 # seconds
+        self.full_color_wipe()
+        self.full_theater_chase()
+        self.rainbow()
+        self.maize_and_blue()
+        time.sleep(DURATION)
+        self.on()
+        time.sleep(DURATION)
 
     def on(self):
         self.steady(self.WHITE)
