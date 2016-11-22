@@ -61,17 +61,20 @@ h1 {
     }
 
     .circle {
-        border-radius: 100%;
-        width: 3em;
-        height: 3em;
-        position: fixed;
         background-color: yellow;
+        border-radius: 100%;
+        box-shadow: 0 0 1.5em #000;
         color: black;
+        font-size: 1.1em;
+        height: 1.5em;
+        position: fixed;
+        width: 1.5em;
+
         /* Aligns the text vertically */
-        vertical-align: middle;
-        line-height: 3em;
         font-weight: bold;
+        line-height: 1.5em;
         min-width: 0em;
+        vertical-align: middle;
     }
 
     #on {
