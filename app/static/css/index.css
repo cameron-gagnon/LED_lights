@@ -17,7 +17,6 @@ a {
     background-color: #1A7B72;
     border: 1px solid transparent;
     border-color: transparent;
-    border-outline: none;
     color: #FFF;
     cursor: pointer;
     min-width: 2em;
@@ -56,9 +55,33 @@ h1 {
     min-width: 10em;
 }
 
-@media all and (min-width: 37em){
+@media (max-width: 37em){
     .flex-grid {
         flex-wrap: wrap;
+    }
+
+    .circle {
+        border-radius: 100%;
+        width: 3em;
+        height: 3em;
+        position: fixed;
+        background-color: yellow;
+        color: black;
+        /* Aligns the text vertically */
+        vertical-align: middle;
+        line-height: 3em;
+        font-weight: bold;
+        min-width: 0em;
+    }
+
+    #on {
+        bottom: 1em;
+        right: 1em;
+    }
+
+    #off {
+        bottom: 1em;
+        left: 1em;
     }
 }
 
