@@ -55,9 +55,10 @@ h1 {
     min-width: 10em;
 }
 
-@media (max-width: 37em){
+@media screen and (max-width: 24em){
     .flex-grid {
         flex-wrap: wrap;
+        max-width: 8em;
     }
 
     .circle {
