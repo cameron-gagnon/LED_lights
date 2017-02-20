@@ -8,7 +8,7 @@ from LED_strip import strip, p, handler
 @app.route('/')
 @app.route('/index')
 def index():
-    # Intialize the library (must be called once before other functions).
+    # Initialize the library (must be called once before other functions).
     return render_template('index.html', title='Pixelate')
 
 @app.route('/signal/<opcode>')
@@ -18,8 +18,13 @@ def signal(opcode):
         print "Killing process"
         p.terminate()
 
-    p = Process(target=send_signal, args=(opcode,))
-    p.start()
+    for i in range(3):
+        if (p.is_alive()):
+            print "Killing process"
+            p.terminate()
+        p = Process(target=send_signal, args=(opcode,))
+        p.start()
+        time.sleep(.1)
 
     # return 0 from main in pixelate_send.cpp so anything non-zero
     # prolly means we encountered errors
