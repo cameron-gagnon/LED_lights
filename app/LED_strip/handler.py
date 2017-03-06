@@ -15,6 +15,7 @@ class Handler(object):
 
         # default to off as the last state
         self.last_state = "off"
+        self.cur_state = "off"
 
     def send(self, strip, opcode):
         print "Sending opcode: ", opcode
@@ -23,23 +24,19 @@ class Handler(object):
 
         res(strip)
 
-        # this happens after calling the opcode function
-        # because when we call the "toggle" function
-        # it uses the last_state value, so we don't
-        # want to update the last_state before we use it
-        set_last_state(res)
 
-    def set_last_state(self, fn_name):
+    def update_state(self, fn_name):
+        self.last_state = self.cur_state
         if (fn_name == "toggle"):
-            toggle_last_state()
+            self.toggle_state()
         else:
-            self.last_state = fn_name
+            self.cur_state = fn_name
 
-    def toggle_last_state(self):
-        if (self.last_state == "off"):
-            self.last_state == "toggle"
+    def toggle_state(self):
+        if (self.cur_state == "off"):
+            self.cur_state = "toggle"
         else:
-            self.last_state == "off"
+            self.cur_state = "off"
 
     def theater_chase(self, strip):
         while(True):
