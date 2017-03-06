@@ -18,13 +18,9 @@ def signal(opcode):
         print "Killing process"
         p.terminate()
 
-    for i in range(3):
-        if (p.is_alive()):
-            print "Killing process"
-            p.terminate()
-        p = Process(target=send_signal, args=(opcode,))
-        p.start()
-        time.sleep(.1)
+    handler.update_state(opcode)
+    p = Process(target=send_signal, args=(opcode,))
+    p.start()
 
     # return 0 from main in pixelate_send.cpp so anything non-zero
     # prolly means we encountered errors
