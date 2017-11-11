@@ -11,6 +11,8 @@ class Handler(object):
             "wipe": self.color_wipe,
             "cycle": self.cycle_all,
             "toggle": self.toggle,
+            "drops": self.drops,
+            "xmas": self.xmas,
         }
 
         # default to off as the last state
@@ -66,6 +68,13 @@ class Handler(object):
             self.m_and_b(strip)
         else:
             self.off(strip)
+
+    def drops(self, strip):
+        while(True):
+            strip.drops()
+
+    def xmas(self, strip):
+        strip.xmas()
 
     def on(self, strip):
         strip.on()

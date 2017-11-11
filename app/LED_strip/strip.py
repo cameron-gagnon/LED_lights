@@ -126,21 +126,7 @@ class Strip(object):
         self.theaterChase(self.GREEN)
 
     def maize_and_blue(self):
-        cur_color = self.BLUE
-        ALTERNATING_AMOUNT = 10
-        counter = 0
-
-        for i in range(self.strip.numPixels()):
-            # change values from maize to blue every 10 pixels
-            if counter >= ALTERNATING_AMOUNT:
-                cur_color = self.BLUE if cur_color == self.YELLOW else self.YELLOW
-                counter = 0
-
-            counter += 1
-
-            self.strip.setPixelColor(i, cur_color)
-
-        self.strip.show()
+        self.alternate_colors(self.BLUE, self.YELLOW)
 
     def cycle_all(self):
         # cycles through each pattern for a little bit (except strobe)
@@ -152,6 +138,43 @@ class Strip(object):
         time.sleep(DURATION)
         self.on()
         time.sleep(DURATION)
+
+    def drops(self):
+#        for i in range(self.strip.numPixels()):
+#            self.strip.setPixelColor(i, self.WHITE)
+
+        one_strip_len = int(self.strip.numPixels()/2)
+        for i in range(one_strip_len):
+            for j in range(one_strip_len, i, -1):
+                self.strip.setPixelColor(j, self.WHITE)
+                self.strip.setPixelColor(j+one_strip_len, self.WHITE)
+                self.strip.show()
+                self.strip.setPixelColor(j, self.OFF)
+                self.strip.setPixelColor(j+one_strip_len, self.OFF)
+
+            self.strip.setPixelColor(i, self.WHITE)
+            self.strip.setPixelColor(i+one_strip_len, self.WHITE)
+            self.strip.show()
+
+    def xmas(self):
+        self.alternate_colors(self.GREEN, self.RED)
+
+    def alternate_colors(self, color1, color2):
+        cur_color = color1
+        ALTERNATING_AMOUNT = 10
+        counter = 0
+
+        for i in range(self.strip.numPixels()):
+            # change values from maize to blue every 10 pixels
+            if counter >= ALTERNATING_AMOUNT:
+                cur_color = color1 if cur_color == color2 else color2
+                counter = 0
+
+            counter += 1
+
+            self.strip.setPixelColor(i, cur_color)
+
+        self.strip.show()
 
     def on(self):
         self.steady(self.WHITE)
