@@ -22,10 +22,11 @@ class Handler(object):
     def send(self, strip, opcode):
         print "Sending opcode: ", opcode
         opcode = opcode.lower()
-        res = self.lookup.get(opcode, self.off)
-
-        res(strip)
-
+        if '|' in opcode:
+            strip.rgbColor(opcode)
+        else:
+            res = self.lookup.get(opcode, self.off)
+            res(strip)
 
     def update_state(self, fn_name):
         self.last_state = self.cur_state

@@ -29,6 +29,10 @@ class Strip(object):
         # Intialize the library (must be called once before other functions).
         self.strip.begin()
 
+    def rgbColor(self, rgbColor):
+        r, g, b = rgbColor.split('|')
+        self.steady(Color(int(r), int(g), int(b)))
+
     # Define functions which animate LEDs in various ways.
     def colorWipe(self, color, wait_ms=50):
         """Wipe color across display a pixel at a time."""
