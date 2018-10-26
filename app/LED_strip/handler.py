@@ -1,3 +1,4 @@
+
 class Handler(object):
 
     def __init__(self):
@@ -19,13 +20,20 @@ class Handler(object):
         self.last_state = "off"
         self.cur_state = "off"
 
-    def send(self, strip, opcode):
+    def send(self, strip, light, opcode):
         print "Sending opcode: ", opcode
         opcode = opcode.lower()
+        if '-' in opcode:
+            strip.rgbAlternateColors(opcode)
+            light.sendOpcode(opcode)
         if '|' in opcode:
             strip.rgbColor(opcode)
+            light.sendOpcode(opcode)
         else:
-            res = self.lookup.get(opcode, self.off)
+            light.sendInvalidOpcode()
+            res = self.lookup.get(opcode, None)
+            if res == None:
+                return
             res(strip)
 
     def update_state(self, fn_name):

@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, request, session, url_for
 from app import app
 import time
 from multiprocessing import Process
-from LED_strip import strip, p, handler
+from LED_strip import strip, p, handler, light
 
 
 @app.route('/')
@@ -28,4 +28,4 @@ def signal(opcode):
 
 
 def send_signal(opcode):
-    handler.send(strip, opcode)
+    handler.send(strip, light, opcode)

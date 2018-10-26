@@ -30,8 +30,19 @@ class Strip(object):
         self.strip.begin()
 
     def rgbColor(self, rgbColor):
-        r, g, b = rgbColor.split('|')
+        r, g, b = self.split(rgbColor, '|')
+        print('red', r, 'green', g, 'blue', b)
         self.steady(Color(int(r), int(g), int(b)))
+
+    def rgbAlternateColors(self, colors):
+        color1, color2 = self.split(colors, '-')
+        r1, g1, b1 = self.split(color1, '|')
+        r2, g2, b2 = self.split(color2, '|')
+        self.alternate_colors(Color(int(r1),int(g1),int(b1)),
+                              Color(int(r2),int(g2),int(b2)))
+
+    def split(self, color, symbol):
+        return color.split(symbol)
 
     # Define functions which animate LEDs in various ways.
     def colorWipe(self, color, wait_ms=50):
