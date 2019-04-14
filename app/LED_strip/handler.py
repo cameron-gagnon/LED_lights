@@ -16,7 +16,6 @@ class Handler(object):
             "xmas": self.xmas,
         }
 
-        # default to off as the last state
         self.last_state = "off"
         self.cur_state = "off"
 
@@ -26,14 +25,15 @@ class Handler(object):
         if '-' in opcode:
             strip.rgbAlternateColors(opcode)
             light.sendOpcode(opcode)
-        if '|' in opcode:
+        elif '|' in opcode:
             strip.rgbColor(opcode)
             light.sendOpcode(opcode)
         else:
-            light.sendInvalidOpcode()
             res = self.lookup.get(opcode, None)
             if res == None:
+                light.sendInvalidOpcode()
                 return
+            light.sendOpcode(opcode)
             res(strip)
 
     def update_state(self, fn_name):
