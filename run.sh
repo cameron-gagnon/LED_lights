@@ -12,7 +12,7 @@ home_dir=$(pwd)
 #cd ../alexa_lumen
 #./run.sh
 
-cd ../lightbot
+cd ../chatbot
 ./run.sh
 
 cd ../botify
