@@ -1,6 +1,7 @@
 #!/usr/bin/env python2.7
 
 import time
+import random
 from neopixel import *
 
 class Strip(object):
@@ -11,6 +12,8 @@ class Strip(object):
     LED_DMA        = 5       # DMA channel to use for generating signal (try 5)
     LED_BRIGHTNESS = 255     # Set to 0 for darkest and 255 for brightest
     LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
+    RANGE          = 40      # range to be used in spread function
+    DELAY          = 50      # 50 ms
 
 
     WHITE = Color(40,40,40) # can't go full brightness otherwise color distortion happens
@@ -111,20 +114,19 @@ class Strip(object):
 
         self.strip.show()
 
-    def strobe(self):
-        DELAY = 50 # in ms
+    def strobe(self, color=WHITE, delay=50):
 
         for i in range(self.strip.numPixels()):
-            self.strip.setPixelColor(i, self.WHITE)
+            self.strip.setPixelColor(i, color)
 
         self.strip.show()
-        time.sleep(DELAY/1000.0)
+        time.sleep(delay/1000.0)
 
         for i in range(self.strip.numPixels()):
             self.strip.setPixelColor(i, self.OFF)
 
         self.strip.show()
-        time.sleep(DELAY/1000.0)
+        time.sleep(delay/1000.0)
 
     def full_color_wipe(self):
         self.colorWipe(self.BLUE)
@@ -196,6 +198,53 @@ class Strip(object):
 
     def off(self):
         self.steady(self.OFF)
+
+    def streak(self, color, delay=0.5):
+        offset = random.randint(self.RANGE, self.strip.numPixels() - self.RANGE)
+        offset2 = random.randint(self.RANGE, self.strip.numPixels() - self.RANGE)
+        pos = [offset, offset2]
+        pos.sort()
+        for i in range(pos[0], pos[1], 3):
+            self.strip.setPixelColor(i, color)
+            self.strip.setPixelColor(i+1, color)
+            self.strip.setPixelColor(i+2, color)
+            self.strip.show()
+            time.sleep(delay/1000.0)
+
+        self.off()
+
+    def lightning(self):
+        color = Color(186,85,211)
+        fn_and_args = random.choice([[self._spread, color, 15, 3],
+                [self.strobe, color, 40, 5], [self.streak, color, 0.01, 1]])
+        fn = fn_and_args[0]
+        args = fn_and_args[1:-1]
+        num_times = fn_and_args[-1]
+        delay = fn_and_args[2]
+
+        for i in range(random.randint(0,num_times)):
+            fn(*args)
+
+        sleep_amt = random.randint(10, 1500)
+        time.sleep(sleep_amt/1000)
+
+    def _spread(self, color=WHITE, delay=15):
+        strike_pos = random.randint(self.RANGE, self.strip.numPixels() - self.RANGE)
+        self.strip.setPixelColor(strike_pos, color)
+        self.strip.show()
+        self.strip.setPixelColor(strike_pos, self.OFF)
+
+        for i in range(self.RANGE):
+            self.strip.setPixelColor(strike_pos + i, color)
+            self.strip.setPixelColor(strike_pos - i, color)
+            self.strip.show()
+            time.sleep(delay/1000)
+            self.strip.setPixelColor(strike_pos + i - 2, self.OFF)
+            self.strip.setPixelColor(strike_pos - i + 2, self.OFF)
+
+        self.off()
+
+
 
 if __name__ == "__main__":
     s = Strip()

@@ -13,21 +13,22 @@ class MyLight:
         self.assignLight()
 
     def sendOpcode(self, opcode):
-        print("Got opcode")
+        print("Got opcode", opcode)
         self.assignLight()
-        #if not self.light:
-        #    return
-        #if '-' in opcode:
-        #    rgbTuple = self.parseMultiColor(opcode)
-        #    self.sendColor(rgbTuple)
-        #elif '|' in opcode:
-        #    rgbTuple = self.parseSingleColor(opcode)
-        #    self.sendColor(rgbTuple)
+        if not self.light:
+            return
+
         if opcode == "off":
             self.off()
-        else:
-            pass
-            #self.warm()
+            return
+
+        #self.on()
+        if '-' in opcode:
+            rgbTuple = self.parseMultiColor(opcode)
+            self.sendColor(rgbTuple)
+        elif '|' in opcode:
+            rgbTuple = self.parseSingleColor(opcode)
+            self.sendColor(rgbTuple)
 
     def parseMultiColor(self, opcode):
         opcode1, opcode2 = opcode.split('-')
@@ -40,10 +41,14 @@ class MyLight:
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
     def sendColor(self, rgbTuple):
+        self.light.set_power(self.ON, rapid=True)
         g, r, b = self.normalizeRGB(rgbTuple)
+        print("Using g,r,b: '{},{},{}'".format(g,r,b))
         h, s, v = colorsys.rgb_to_hsv(r, g, b)
+        print("Using hsv: '{},{},{}'".format(h,s,v))
         hHue = self.mapRange(h, 0, 1, 0, self.MAX)
-        self.light.set_color(WARM_WHITE, rapid=True)
+        print("Using hHue: '{}'".format(hHue))
+        self.light.set_hue(hHue, rapid=True)
 
     def normalizeRGB(self, rgbTuple):
         normalizedRGBs = []
@@ -56,8 +61,9 @@ class MyLight:
         self.light.set_power(self.OFF, rapid=True)
 
     def on(self):
-        self.light.set_color(self.CUSTOM_WHITE, rapid=True)
+        print("Turning lifxlan on")
         self.light.set_power(self.ON, rapid=True)
+        self.light.set_color(self.CUSTOM_WHITE, rapid=True)
 
     def warm(self):
         print("Warming up")
@@ -71,6 +77,7 @@ class MyLight:
 
     def assignLight(self):
         if not self.light:
-            light = LifxLAN(1).get_lights()
-            if len(light) > 0:
-                self.light = light[0]
+            light = Light("d0:73:d5:26:30:b3","136.24.15.153")
+            print("got light", light)
+            if light:
+                self.light = light

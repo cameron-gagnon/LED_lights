@@ -14,6 +14,7 @@ class Handler(object):
             "toggle": self.toggle,
             "drops": self.drops,
             "xmas": self.xmas,
+            "lightning": self.lightning,
         }
 
         self.last_state = "off"
@@ -81,6 +82,10 @@ class Handler(object):
     def drops(self, strip):
         while(True):
             strip.drops()
+
+    def lightning(self, strip):
+        while(True):
+            strip.lightning()
 
     def xmas(self, strip):
         strip.xmas()
