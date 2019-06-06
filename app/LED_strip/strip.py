@@ -25,6 +25,8 @@ class Strip(object):
     YELLOW = Color(127,127,0)
     DIM_YELLOW = Color(80,80,0)
 
+    MAX_LIGHTNING_SLEEP = 5000
+
     def __init__(self):
         self.strip = Adafruit_NeoPixel(self.LED_COUNT, self.LED_PIN,
                                    self.LED_FREQ_HZ, self.LED_DMA,
@@ -225,7 +227,7 @@ class Strip(object):
         for i in range(random.randint(0,num_times)):
             fn(*args)
 
-        sleep_amt = random.randint(10, 1500)
+        sleep_amt = random.randint(10, self.MAX_LIGHTNING_SLEEP)
         time.sleep(sleep_amt/1000)
 
     def _spread(self, color=WHITE, delay=15):
