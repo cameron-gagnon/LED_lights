@@ -11,15 +11,15 @@ home_dir=$(pwd)
 
 #cd ../alexa_lumen
 #./run.sh
-
 cd ../chatbot
 ./run.sh
 
-cd ../botify
-./run.sh
+#cd ../botify
+#./run.sh
 
 cd "$home_dir"
 
 # re-run the server
 echo "Running main server...\n"
+export PYTHONUNBUFFERED=1
 nohup sudo ./main.py &
