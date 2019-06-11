@@ -16,6 +16,7 @@ def signal(opcode):
     global p
     if (p.is_alive()):
         print "Killing process"
+        handler.end()
         p.terminate()
 
     handler.update_state(opcode)

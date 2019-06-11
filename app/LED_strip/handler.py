@@ -1,7 +1,9 @@
+from music_visualization.visualizer import Visualizer
 
 class Handler(object):
 
     def __init__(self):
+        self.visualizer = Visualizer()
         self.lookup = {
             "on": self.on,
             "off": self.off,
@@ -15,10 +17,14 @@ class Handler(object):
             "drops": self.drops,
             "xmas": self.xmas,
             "lightning": self.lightning,
+            "music": self.visualizer.start,
         }
 
         self.last_state = "off"
         self.cur_state = "off"
+
+    def end(self):
+        self.visualizer.stop()
 
     def send(self, strip, light, opcode):
         print "Sending opcode: ", opcode
