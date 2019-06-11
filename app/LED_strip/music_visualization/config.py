@@ -16,14 +16,6 @@ audio input and control the LED strip directly.
 to control the leds connected to it.
 """
 
-if DEVICE == 'esp8266':
-    UDP_IP = '192.168.0.150'
-    """IP address of the ESP8266. Must match IP in ws2812_controller.ino"""
-    UDP_PORT = 7777
-    """Port number used for socket communication between Python and ESP8266"""
-    SOFTWARE_GAMMA_CORRECTION = False
-    """Set to False because the firmware handles gamma correction + dither"""
-
 if DEVICE == 'pi':
     LED_PIN = 18
     """GPIO pin connected to the LED strip pixels (must support PWM)"""
@@ -38,17 +30,16 @@ if DEVICE == 'pi':
     SOFTWARE_GAMMA_CORRECTION = True
     """Set to True because Raspberry Pi doesn't use hardware dithering"""
 
-if DEVICE == 'blinkstick':
-    SOFTWARE_GAMMA_CORRECTION = True
-    """Set to True because blinkstick doesn't use hardware dithering"""
-
 USE_GUI = False
 """Whether or not to display a PyQtGraph GUI plot of visualization"""
 
 DISPLAY_FPS = False
 """Whether to display the FPS when running (can reduce performance)"""
 
-N_PIXELS = 150
+N_PIXELS = 126
+if N_PIXELS % 2:
+    raise ValueError("ERROR, please enter an even number")
+
 N_TOTAL_PIXELS = 300
 """Number of pixels in the LED strip (must match ESP8266 firmware)"""
 
