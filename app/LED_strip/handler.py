@@ -1,4 +1,5 @@
 from music_visualization.visualizer import Visualizer
+from helpers.decorators import loop
 
 class Handler(object):
 
@@ -56,28 +57,29 @@ class Handler(object):
         else:
             self.cur_state = "off"
 
+    @loop
     def theater_chase(self, strip):
-        while(True):
-            strip.full_theater_chase()
+        strip.full_theater_chase()
 
+
+    @loop
     def gerald(self, strip):
-        while(True):
-            strip.rainbow()
+        strip.rainbow()
 
+    @loop
     def color_wipe(self, strip):
-        while(True):
-            strip.full_color_wipe()
+        strip.full_color_wipe()
 
     def m_and_b(self, strip):
         strip.maize_and_blue()
 
+    @loop
     def seizure(self, strip):
-        while(True):
-            strip.strobe()
+        strip.strobe()
 
+    @loop
     def cycle_all(self, strip):
-        while(True):
-            strip.cycle_all()
+        strip.cycle_all()
 
     def toggle(self, strip):
         if self.last_state == "off":
@@ -85,13 +87,13 @@ class Handler(object):
         else:
             self.off(strip)
 
+    @loop
     def drops(self, strip):
-        while(True):
-            strip.drops()
+        strip.drops()
 
+    @loop
     def lightning(self, strip):
-        while(True):
-            strip.lightning()
+        strip.lightning()
 
     def xmas(self, strip):
         strip.xmas()
