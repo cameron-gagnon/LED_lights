@@ -20,5 +20,6 @@ Steps to re-install this repo:
 * `cd python`
 * `sudo apt-get install python-dev swig`
 * `python2.7 ./setup.py build`
-* `python2.7 ./setup.py install`
+* `sudo python2.7 ./setup.py install`
 * `sudo pip install lifxlan`
+* Follow hardware config from here: https://github.com/scottlawsonbc/audio-reactive-led-strip
