@@ -14,11 +14,12 @@ Pixelated
 Steps to re-install this repo:
 * use python2.7 (even tho it's old and out of date)
 * clone repo
-* `sudo apt-get install scons`
+* `sudo apt-get install scons python-dev swig python-scipy python-pyaudio`
+* If pyaudio isn't fully installed, try installing:
+  * sudo apt-get install libportaudio0 libportaudio2 libportaudiocpp0 portaudio19-dev
 * `cd rpi_ws281x`
 * `scons`
 * `cd python`
-* `sudo apt-get install python-dev swig`
 * `python2.7 ./setup.py build`
 * `sudo python2.7 ./setup.py install`
 * `sudo pip install lifxlan`
