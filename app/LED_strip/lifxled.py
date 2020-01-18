@@ -13,6 +13,9 @@ class MyLight:
         self.assignLight()
 
     def sendOpcode(self, opcode):
+        # don't do anything
+        return
+
         print("Got opcode", opcode)
         self.assignLight()
         if not self.light:
