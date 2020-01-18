@@ -19,6 +19,10 @@ Steps to re-install this repo:
   * sudo apt-get install libportaudio0 libportaudio2 libportaudiocpp0 portaudio19-dev
 * `cd rpi_ws281x`
 * `scons`
+* Create file `/etc/modprobe.d/snd-blacklist.conf` with contents: `blacklist
+  snd_bcm2835`. The rpi_ws281x library and Broadcom audio use PWM. This disables
+  the driver so just the library uses PWN. See rpi_ws281x/README.md for more
+  details.
 * `cd python`
 * `python2.7 ./setup.py build`
 * `sudo python2.7 ./setup.py install`
