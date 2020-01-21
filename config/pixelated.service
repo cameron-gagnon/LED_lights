@@ -1,0 +1,14 @@
+#!/bin/bash
+[Unit]
+Description=LED strip controller for Stroop\'s room
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+User=pi
+Type=forking
+WorkingDirectory=/home/pi/src/pixelated
+ExecStart=/home/pi/src/pixelated/run.sh
+Restart=always
+RestartSec=3
