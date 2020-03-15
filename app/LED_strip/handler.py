@@ -1,9 +1,13 @@
 from music_visualization.visualizer import Visualizer
 from helpers.decorators import loop
+from strip import Strip
+from lifxled import MyLight
 
-class Handler(object):
+class Handler():
 
     def __init__(self):
+        self.strip = Strip()
+        self.light = MyLight()
         self.visualizer = Visualizer()
         self.lookup = {
             "on": self.on,
@@ -23,26 +27,34 @@ class Handler(object):
 
         self.last_state = "off"
         self.cur_state = "off"
+        # noop function for initial effect on startup
+        self.current_effect = lambda: None
 
-    def end(self):
-        self.visualizer.stop()
+    def run(self):
+        while True:
+            try:
+                #print "Current effect is: '%s'" % self.current_effect
+                self.current_effect()
+            except KeyboardInterrupt:
+                break
 
-    def send(self, strip, light, opcode):
+    def send(self, opcode):
         print "Sending opcode: ", opcode
         opcode = opcode.lower()
         if '-' in opcode:
-            strip.rgbAlternateColors(opcode)
-            light.sendOpcode(opcode)
+            self.strip.rgbAlternateColors(opcode)
+            self.light.sendOpcode(opcode)
         elif '|' in opcode:
-            strip.rgbColor(opcode)
-            light.sendOpcode(opcode)
+            self.strip.rgbColor(opcode)
+            self.light.sendOpcode(opcode)
         else:
             res = self.lookup.get(opcode, None)
             if res == None:
-                light.sendInvalidOpcode()
+                self.light.sendInvalidOpcode()
                 return
-            light.sendOpcode(opcode)
-            res(strip)
+            self.light.sendOpcode(opcode)
+            self.current_effect = res
+            self.run()
 
     def update_state(self, fn_name):
         self.last_state = self.cur_state
@@ -51,55 +63,51 @@ class Handler(object):
         else:
             self.cur_state = fn_name
 
+        # end visualizer if the last state was music
+        if self.last_state == "music":
+            self.visualizer.stop()
+
     def toggle_state(self):
         if (self.cur_state == "off"):
             self.cur_state = "toggle"
         else:
             self.cur_state = "off"
 
-    @loop
-    def theater_chase(self, strip):
-        strip.full_theater_chase()
+    def theater_chase(self):
+        self.strip.full_theater_chase()
 
+    def gerald(self):
+        self.strip.rainbow()
 
-    @loop
-    def gerald(self, strip):
-        strip.rainbow()
+    def color_wipe(self):
+        self.strip.full_color_wipe()
 
-    @loop
-    def color_wipe(self, strip):
-        strip.full_color_wipe()
+    def m_and_b(self):
+        self.strip.maize_and_blue()
 
-    def m_and_b(self, strip):
-        strip.maize_and_blue()
+    def seizure(self):
+        self.strip.strobe()
 
-    @loop
-    def seizure(self, strip):
-        strip.strobe()
+    def cycle_all(self):
+        self.strip.cycle_all()
 
-    @loop
-    def cycle_all(self, strip):
-        strip.cycle_all()
-
-    def toggle(self, strip):
+    def toggle(self):
         if self.last_state == "off":
-            self.m_and_b(strip)
+            self.m_and_b()
         else:
-            self.off(strip)
+            self.off()
 
-    @loop
-    def drops(self, strip):
-        strip.drops()
+    def drops(self):
+        self.strip.drops()
 
-    @loop
-    def lightning(self, strip):
-        strip.lightning()
+    def lightning(self):
+        self.strip.lightning()
 
-    def xmas(self, strip):
-        strip.xmas()
+    def xmas(self):
+        self.strip.xmas()
 
-    def on(self, strip):
-        strip.on()
+    def on(self):
+        self.strip.on()
 
-    def off(self, strip):
-        strip.off()
+    def off(self):
+        self.strip.off()

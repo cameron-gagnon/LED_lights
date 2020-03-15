@@ -1,9 +1,8 @@
-from flask import render_template, flash, redirect, request, session, url_for
+from flask import render_template, redirect, url_for
 from app import app
-import time
 from multiprocessing import Process
-from LED_strip import strip, p, handler, light
-
+from LED_strip import handler
+p = Process()
 
 @app.route('/')
 @app.route('/index')
@@ -14,12 +13,13 @@ def index():
 @app.route('/signal/<opcode>')
 def signal(opcode):
     global p
-    if (p.is_alive()):
-        print "Killing process"
-        handler.end()
-        p.terminate()
 
     handler.update_state(opcode)
+
+    if (p.is_alive()):
+        print "Killing process"
+        p.terminate()
+
     p = Process(target=send_signal, args=(opcode,))
     p.start()
 
@@ -29,4 +29,4 @@ def signal(opcode):
 
 
 def send_signal(opcode):
-    handler.send(strip, light, opcode)
+    handler.send(opcode)
