@@ -10,18 +10,10 @@
             <h1>Light Controls</h1>
         </div> <!-- end header -->
         <div class="flex-grid">
-            <a class="col button" href="/signal/seizure">🅱eizure</a>
-            <a class="col button" href="/signal/chase">Theater Chase</a>
-            <a class="col button" href="/signal/wipe">Color Wipe</a>
-            <a class="col button" href="/signal/cycle">Cycle patterns</a>
-            <a class="col button" href="/signal/gerald">Gerald</a>
-            <a class="col button" href="/signal/mandb">Maize and 🅱lue</a>
-            <a class="col button" href="/signal/xmas">🎄 Christmas 🎄</a>
-            <a class="col button" href="/signal/drops">Drops</a>
-            <a class="col button" id="outrun" href="/signal/Outrun">Outrun</a>
-            <a class="col button circle" id="off" href="/signal/off">Off</a>
-            <a class="col button circle" id="on" href="/signal/on">On</a>
-            <a class="col button circle" href="/signal/music">🎵 Music 🎵</a>
+            {% for setting in settings %}
+                <a class="col button" id="{{ setting }}" href="/signal/{{ setting }}">{{ setting.title() }}</a>
+            {% endfor %}
+
             <button type="button" class="col btn-danger" id='restart' >Restart</a>
         </div> <!-- end flexbox -->
     </div> <!-- end container -->

@@ -1,6 +1,7 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, jsonify
 from app import app
 from multiprocessing import Process
+
 from LED_strip import handler
 p = Process()
 
@@ -8,7 +9,8 @@ p = Process()
 @app.route('/index')
 def index():
     # Initialize the library (must be called once before other functions).
-    return render_template('index.html', title='Pixelate')
+    settings = handler.settings()
+    return render_template('index.html', title='Pixelate', settings=settings['settings'])
 
 @app.route('/signal/<opcode>')
 def signal(opcode):
@@ -28,5 +30,9 @@ def signal(opcode):
     return redirect( url_for('index') )
 
 
+# API endpoint to return available colors to set
+@app.route('/settings')
+def settings():
+    return jsonify(handler.settings())
 def send_signal(opcode):
     handler.send(opcode)
