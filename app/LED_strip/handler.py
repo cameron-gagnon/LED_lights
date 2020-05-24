@@ -23,6 +23,7 @@ class Handler():
             "xmas": self.xmas,
             "lightning": self.lightning,
             "music": self.visualizer.start,
+            "outrun": self.outrun,
         }
 
         self.last_state = "off"
@@ -111,3 +112,6 @@ class Handler():
 
     def off(self):
         self.strip.off()
+
+    def outrun(self):
+        self.strip.outrun()

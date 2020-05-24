@@ -19,8 +19,8 @@ class Strip(object):
     WHITE = Color(40,40,40) # can't go full brightness otherwise color distortion happens
     BRIGHT_WHITE = Color(100,100,100) # for use when not all of the strand will be on
     OFF = Color(0,0,0)
-    RED = Color(255,0,0)
-    GREEN = Color(0,255,0)
+    GREEN = Color(255,0,0)
+    RED = Color(0,255,0)
     BLUE = Color(0,0,255)
     YELLOW = Color(127,127,0)
     DIM_YELLOW = Color(80,80,0)
@@ -229,6 +229,33 @@ class Strip(object):
 
         sleep_amt = random.randint(10, self.MAX_LIGHTNING_SLEEP)
         time.sleep(sleep_amt/1000)
+
+    def outrun(self):
+        # we really want the midpoint of the visible strands, not the technical
+        # midpoint. This number will change as the setup changes
+        MIDPOINT = 78
+        # how drastic the color changes between changes
+        STEP = 1
+        # blanks/black lines occur at these values to imitate the lines in the
+        # outrun sun
+        blanks = [42, 48, 49, 50, 55, 56, 57, 58, 59, 63, 64, 65, 66, 67, 68, 69]
+        base_brightness = 80
+
+        for i in range(self.LED_COUNT/2):
+            pos_offset = MIDPOINT + i
+            neg_offset = MIDPOINT - i
+
+            if i in blanks:
+                color = self.OFF
+            else:
+                color = Color(max(base_brightness - (i*STEP), 0),
+                              min(base_brightness + (i*STEP), 255),
+                              0)
+
+            self.strip.setPixelColor(pos_offset, color)
+            self.strip.setPixelColor(neg_offset, color)
+
+        self.strip.show()
 
     def _spread(self, color=WHITE, delay=15):
         strike_pos = random.randint(self.RANGE, self.strip.numPixels() - self.RANGE)
