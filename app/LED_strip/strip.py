@@ -6,11 +6,11 @@ from neopixel import *
 
 class Strip(object):
     # LED self.strip configuration:
-    LED_COUNT      = 300      # Number of LED pixels.
+    LED_COUNT      = 300     # Number of LED pixels.
     LED_PIN        = 18      # GPIO pin connected to the pixels (must support PWM!).
     LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
     LED_DMA        = 5       # DMA channel to use for generating signal (try 5)
-    LED_BRIGHTNESS = 255     # Set to 0 for darkest and 255 for brightest
+    LED_BRIGHTNESS = 155     # Set to 0 for darkest and 255 for brightest
     MAX_COLOR      = 255
     LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
     RANGE          = 40      # range to be used in spread function
@@ -23,7 +23,7 @@ class Strip(object):
     BLUE = Color(0,0,255)
     YELLOW = Color(127,127,0)
     DIM_YELLOW = Color(80,80,0)
-    ORANGE = Color(255,165,0)
+    ORANGE = Color(35,255,0)
 
     MAX_LIGHTNING_SLEEP = 5000
 
@@ -223,26 +223,26 @@ class Strip(object):
         sleep_amt = random.randint(10, self.MAX_LIGHTNING_SLEEP)
         time.sleep(sleep_amt/1000)
 
-    def airheads(self, wait_ms=20):
-        """Draw rainbow that fades across all pixels at once."""
-        for j in range(self.MAX_COLOR+1):
+    def airheads(self, wait_ms=35, airhead_strip_len=20):
+        """Draw a repeated airheads pattern that moves across the whole strand"""
+        for j in range(airhead_strip_len):
             for i in range(self.strip.numPixels()):
-                self.strip.setPixelColor(i, self._airHeadStrip(i+j))
+                self.strip.setPixelColor(i, self._airHeadStrip(i+j, airhead_strip_len))
             self.strip.show()
             time.sleep(wait_ms/1000.0)
 
-    def _airHeadStrip(self, pos):
-        pos %= self.MAX_COLOR
+    def _airHeadStrip(self, pos, airhead_strip_len):
+        pos %= airhead_strip_len
         pos_to_strip_color = [
             (1, self.GREEN),
             (2, self.BLUE),
-            (3, self.YELLOW),
+            (3, self.DIM_YELLOW),
             (4, self.ORANGE),
             (5, self.RED),
         ]
         num_buckets = len(pos_to_strip_color)
         for bucket_num, color in pos_to_strip_color:
-            if pos < self.MAX_COLOR/num_buckets * bucket_num:
+            if pos < airhead_strip_len/num_buckets * bucket_num:
                 return color
 
     def outrun(self):
