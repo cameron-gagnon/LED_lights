@@ -11,6 +11,7 @@ class Strip(object):
     LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
     LED_DMA        = 5       # DMA channel to use for generating signal (try 5)
     LED_BRIGHTNESS = 255     # Set to 0 for darkest and 255 for brightest
+    MAX_COLOR      = 255
     LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
     RANGE          = 40      # range to be used in spread function
 
@@ -22,6 +23,7 @@ class Strip(object):
     BLUE = Color(0,0,255)
     YELLOW = Color(127,127,0)
     DIM_YELLOW = Color(80,80,0)
+    ORANGE = Color(255,165,0)
 
     MAX_LIGHTNING_SLEEP = 5000
 
@@ -39,8 +41,9 @@ class Strip(object):
             "strobe"   : self.strobe,
             "outrun"   : self.outrun,
             "gerald"   : self.rainbow,
-            "rainbow"  : self.rainbow,
+            "rainbow"  : self.rainbowCycle,
             "lightning": self.lightning,
+            "airheads" : self.airheads,
         }
 
         self.strip = Adafruit_NeoPixel(self.LED_COUNT, self.LED_PIN,
@@ -80,6 +83,7 @@ class Strip(object):
 
     def wheel(self, pos):
         """Generate rainbow colors across 0-255 positions."""
+        pos %= self.MAX_COLOR
         if pos < 85:
             return Color(pos * 3, 255 - pos * 3, 0)
         elif pos < 170:
@@ -93,7 +97,7 @@ class Strip(object):
         """Draw rainbow that fades across all pixels at once."""
         for j in range(256*iterations):
             for i in range(self.strip.numPixels()):
-                self.strip.setPixelColor(i, self.wheel((i+j) & 255))
+                self.strip.setPixelColor(i, self.wheel(i+j))
             self.strip.show()
             time.sleep(wait_ms/1000.0)
 
@@ -101,17 +105,17 @@ class Strip(object):
         """Draw rainbow that uniformly distributes itself across all pixels."""
         for j in range(256*iterations):
             for i in range(self.strip.numPixels()):
-                self.strip.setPixelColor(i, self.wheel(((i * 256 / self.strip.numPixels()) + j) & 255))
+                self.strip.setPixelColor(i, self.wheel((i * 256 / self.strip.numPixels()) + j))
 
             self.strip.show()
             time.sleep(wait_ms/1000.0)
 
     def theaterChaseRainbow(self, wait_ms=50):
         """Rainbow movie theater light style chaser animation."""
-        for j in range(256):
+        for j in range(self.MAX_COLOR+1):
             for q in range(3):
                 for i in range(0, self.strip.numPixels(), 3):
-                    self.strip.setPixelColor(i+q, self.wheel((i+j) % 255))
+                    self.strip.setPixelColor(i+q, self.wheel(i+j))
 
                 self.strip.show()
                 time.sleep(wait_ms/1000.0)
@@ -153,7 +157,7 @@ class Strip(object):
     def cycle_all(self):
         # cycles through each pattern for a little bit (except strobe)
         DURATION = 10 # seconds
-        self.full_color_wipe()
+        self.full_wipe()
         self.full_theater_chase()
         self.rainbow()
         self.maize_and_blue()
@@ -218,6 +222,28 @@ class Strip(object):
 
         sleep_amt = random.randint(10, self.MAX_LIGHTNING_SLEEP)
         time.sleep(sleep_amt/1000)
+
+    def airheads(self, wait_ms=20):
+        """Draw rainbow that fades across all pixels at once."""
+        for j in range(self.MAX_COLOR+1):
+            for i in range(self.strip.numPixels()):
+                self.strip.setPixelColor(i, self._airHeadStrip(i+j))
+            self.strip.show()
+            time.sleep(wait_ms/1000.0)
+
+    def _airHeadStrip(self, pos):
+        pos %= self.MAX_COLOR
+        pos_to_strip_color = [
+            (1, self.GREEN),
+            (2, self.BLUE),
+            (3, self.YELLOW),
+            (4, self.ORANGE),
+            (5, self.RED),
+        ]
+        num_buckets = len(pos_to_strip_color)
+        for bucket_num, color in pos_to_strip_color:
+            if pos < self.MAX_COLOR/num_buckets * bucket_num:
+                return color
 
     def outrun(self):
         # we really want the midpoint of the visible strands, not the technical
